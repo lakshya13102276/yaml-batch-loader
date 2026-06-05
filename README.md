@@ -1,6 +1,6 @@
 # YAML-Driven Batch Config Loader
 
-A production-style Python project that mirrors the config-driven batch processing pattern used in the TELUS TAG Clarizen data pipeline. Built as a learning exercise for data engineers working with GCP/Airflow/Dataflow pipelines.
+A production-style Python project that mirrors the config-driven batch processing pattern used in the data pipeline. Built as a learning exercise for data engineers working with GCP/Airflow/Dataflow pipelines.
 
 ## What This Project Teaches You
 
