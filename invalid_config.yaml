@@ -1,0 +1,48 @@
+# This config has intentional errors for testing validation logic
+# Your validate_document() function should catch ALL of these
+
+pipeline:
+  name: ""                      # ERROR: empty name
+  owner: "Data Warehouse Analytics"
+  # schedule is missing entirely — ERROR
+  timeout_minutes: -5           # ERROR: negative timeout
+  default_batch_size: 0         # ERROR: batch size must be >= 1
+  throttle_seconds: 20
+  environment: "staging"
+
+documents:
+  # ERROR: missing required field 'source_folder'
+  - document: "Timesheet"
+    enabled: true
+    source_directory: "clarizen_raw"
+    source_file_delimiter: ","
+    dest_dataset: "tag_clarizen_raw"
+    dest_table: "timesheet"
+    bq_schema_json: "timesheet_schema.json"
+
+  # ERROR: missing required field 'document' (the name)
+  - enabled: true
+    source_folder: "project"
+    source_directory: "clarizen_raw"
+    source_file_delimiter: ","
+    dest_dataset: "tag_clarizen_raw"
+    dest_table: "project"
+    bq_schema_json: "project_schema.json"
+
+  # ERROR: missing dest_dataset and dest_table
+  - document: "Resource"
+    enabled: true
+    source_folder: "resource"
+    source_directory: "clarizen_raw"
+    source_file_delimiter: ","
+    bq_schema_json: "resource_schema.json"
+
+  # This one is actually valid — should pass validation
+  - document: "WorkItem"
+    enabled: true
+    source_folder: "work_item"
+    source_directory: "clarizen_raw"
+    source_file_delimiter: ","
+    dest_dataset: "tag_clarizen_raw"
+    dest_table: "work_item"
+    bq_schema_json: "work_item_schema.json"

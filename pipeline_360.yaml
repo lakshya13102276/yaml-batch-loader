@@ -1,0 +1,61 @@
+# =============================================================================
+# Pipeline Configuration: 360 Dashboard Data
+# =============================================================================
+# Mirrors the 360 pipeline which pulls from Google Sheets and runs SQL
+# transformations. Different structure from Clarizen to test flexibility.
+# =============================================================================
+
+pipeline:
+  name: "360_dashboard"
+  owner: "Data Warehouse Analytics"
+  schedule: "0 6 * * *"         # Daily at 6 AM
+  timeout_minutes: 120
+  default_batch_size: 3
+  throttle_seconds: 10
+  environment: "staging"
+
+documents:
+  - document: "AccountHierarchy"
+    enabled: true
+    source_folder: "sheets/account_hierarchy"
+    source_directory: "raw_360_tag"
+    source_file_delimiter: ","
+    dest_dataset: "dwh_360"
+    dest_table: "d_account_hierarchy"
+    bq_schema_json: "account_hierarchy_schema.json"
+
+  - document: "ServiceContractRevenue"
+    enabled: true
+    source_folder: "sap/service_contract"
+    source_directory: "raw_360_tag"
+    source_file_delimiter: ","
+    dest_dataset: "dwh_360"
+    dest_table: "s4_revenue"
+    bq_schema_json: "s4_revenue_schema.json"
+
+  - document: "SalesforceAccount"
+    enabled: true
+    source_folder: "salesforce/account"
+    source_directory: "raw_360_tag"
+    source_file_delimiter: ","
+    dest_dataset: "dwh_360"
+    dest_table: "sf_account"
+    bq_schema_json: "sf_account_schema.json"
+
+  - document: "NPSSurvey"
+    enabled: false
+    source_folder: "sheets/nps"
+    source_directory: "raw_360_tag"
+    source_file_delimiter: ","
+    dest_dataset: "dwh_360"
+    dest_table: "nps_survey"
+    bq_schema_json: "nps_survey_schema.json"
+
+  - document: "ChurnReport"
+    enabled: true
+    source_folder: "sheets/churn"
+    source_directory: "raw_360_tag"
+    source_file_delimiter: ","
+    dest_dataset: "dwh_360"
+    dest_table: "churn_report"
+    bq_schema_json: "churn_report_schema.json"
